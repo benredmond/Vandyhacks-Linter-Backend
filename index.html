@@ -3,6 +3,24 @@
     <title>Simple Multer Upload Example</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css” crossorigin=”anonymous”>
+
+    <link href=”https://fonts.googleapis.com/css?family=Open+Sans:400,700|Droid+Sans+Mono” rel=”stylesheet”>
+
+    <script src=”https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js”></script>
+
+    <!– highlight-within-textarea CSS/JS –>
+
+    <link href=”css/highlight-within-textarea/jquery.highlight-within-textarea.css” rel=”stylesheet”>
+
+    <script src=”js/highlight-within-textarea/jquery.highlight-within-textarea.js”></script>
+
+    <script>
+        $('.code').highlightWithinTextarea({
+            highlight: "test" // string, regexp, array, function, or custom object
+        });
+    </script>
+
 </head>
 <body>
 <form action="/upload" enctype="multipart/form-data" method="post">
@@ -13,7 +31,7 @@
 <form action="/parseText" id="usrform" method="post">
     <input type="submit">
 </form>
-<textarea rows="4" cols="50" name="comment" form="usrform"></textarea>
+<textarea rows="4" cols="50" name="comment" id="code" form="usrform"></textarea>
 
 </body>
 </html>
