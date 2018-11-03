@@ -31,6 +31,38 @@ function main(callback) {
     performAnalysis(fileName);
 }
 
+function performAnalysis (fileName){
+    exec(`./cpp/CompileCheck ${fileName}`, (err, stdout, stderr) => {
+
+        if (err) {
+            // node couldn't execute the command
+            console.log("Error when reading the file!");
+            return;
+        }
+
+        // console.log("YOUR CODE FINISHED WITH " + stdout);
+        if (stdout.includes("EXIT CODE: 0")) {
+            exec(`./cpp/Scripting ${fileName}`, (err, stdout, stderr) => {
+                console.log("\n" + "Grading...");
+                console.log(stdout);
+                console.log("the errors maps read:");
+                parse.parse(lineToMessage, typeToCount, stdout);
+                console.log("line to message mapping:");
+                console.log(lineToMessage);
+                console.log("type to count mapping: ");
+                console.log(typeToCount);
+                console.log("\nYour program output: \n");
+                exec(`./cpp/${fileName}.out`, (err, stdout, stderr) => {
+                    console.log(`${stdout}`);
+                    //console.log(`stderr: ${stderr}`);
+                });
+            })
+        }
+        else {
+            console.log("Process must finish exit code 0 before receiving a grade!");
+        }
+    });
+}
 
 
 app.get('/', (req, res) => {
@@ -42,7 +74,7 @@ app.post('/upload', parser.single("image"), function(req, res, next) {
     readImg("./images/" + req.file.filename, (imgText) => {
         let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
         fs.writeFile('./cpp/outputfile.cpp', content, () => {
-            console.log(imgText);
+            performAnalysis('outputfile');
         });
     });
 });
@@ -51,7 +83,7 @@ app.post('/parseText', (req, res) => {
     res.redirect('/');
     let content = '#include <iostream>\nint main() {\n' + req.body.comment + 'return 0;\n}';
     fs.writeFile('./cpp/outputfile.cpp', content, () => {
-        console.log("done");
+        performAnalysis('outputfile');
     });
 });
 
@@ -59,40 +91,6 @@ app.listen(3000, () => {
     console.log('We are live on ' + 3000);
 });
 
-
-function performAnalysis (fileName){
-    exec(`./cpp/CompileCheck ${fileName}`, (err, stdout, stderr) => {
-
-        if (err) {
-            // node couldn't execute the command
-            console.log("Error when reading the file!");
-            return;
-        }
-
-        let errorCode = stdout;
-        console.log("YOUR CODE FINISHED WITH " + stdout);
-        if (errorCode.includes("EXIT CODE: 0")) {
-            exec('./cpp/Scripting main', (err, stdout, stderr) => {
-                console.log("\n" + "Grading...");
-                console.log(stdout);
-                console.log("the errors maps read:");
-                parse.parse(lineToMessage, typeToCount, stdout);
-                console.log("line to message mapping:");
-                console.log(lineToMessage);
-                console.log("type to count mapping: ");
-                console.log(typeToCount);
-                console.log("\nYour program output: \n");
-                exec('./cpp/main.out', (err, stdout, stderr) => {
-                    console.log(`stdout: ${stdout}`);
-                    //console.log(`stderr: ${stderr}`);
-                });
-            })
-        }
-        else {
-            console.log("Process must finish exit code 0 before receiving a grade!");
-        }
-    });
-}
 
 
 
