@@ -41,7 +41,7 @@ function performAnalysis (fileName, callback){
         }
 
         // let errorCode = stdout;
-        // console.log("YOUR CODE FINISHED WITH " + stdout);
+        console.log("YOUR CODE FINISHED WITH " + stdout);
         if (stdout.includes("EXIT CODE: 0")) {
             exec(`./cpp/Scripting ${fileName}`, (err, stdout, stderr) => {
                 console.log("\n" + "Grading...");
