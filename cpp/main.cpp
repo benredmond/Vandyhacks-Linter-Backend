@@ -36,8 +36,8 @@
 //}
 
 int main() {
+    std::cout << "User code beginning..." << std::endl;
     int x;
-    ++x;
-    std::cout << "TEST" << std::endl;
+    x++;
     return 0;
 }
