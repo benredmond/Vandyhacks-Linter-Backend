@@ -5,11 +5,24 @@ let lineToMessage = {};
 let typeToCount = {error: 0, warning: 0, style: 0};
 
 function main(callback) {
-    exec('./cpp/CompileCheck main', (err, stdout, stderr) => {
+    let fileName = "main";
+    performAnalysis(fileName);
+}
+
+main(() => {
+    exec('./cpp/main.out', (err, stdout, stderr) => {
+        console.log(`stdout: ${stdout}`);
+        //console.log(`stderr: ${stderr}`);
+    });
+});
+
+
+function performAnalysis (fileName){
+    exec(`./cpp/CompileCheck ${fileName}`, (err, stdout, stderr) => {
 
         if (err) {
             // node couldn't execute the command
-            console.log("BAD");
+            console.log("Error when reading the file!");
             return;
         }
 
@@ -26,7 +39,10 @@ function main(callback) {
                 console.log("type to count mapping: ");
                 console.log(typeToCount);
                 console.log("\nYour program output: \n");
-                callback(stdout);
+                exec('./cpp/main.out', (err, stdout, stderr) => {
+                    console.log(`stdout: ${stdout}`);
+                    //console.log(`stderr: ${stderr}`);
+                });
             })
         }
         else {
@@ -34,15 +50,6 @@ function main(callback) {
         }
     });
 }
-
-
-main(() => {
-    exec('./cpp/main.out', (err, stdout, stderr) => {
-        console.log(`stdout: ${stdout}`);
-        //console.log(`stderr: ${stderr}`);
-    });
-});
-
 
 
 
