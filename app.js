@@ -28,7 +28,7 @@ let typeToCount = {error: 0, warning: 0, style: 0};
 
 function main(callback) {
     let fileName = "main";
-    performAnalysis(fileName);
+    performAnalysis(fileName, lineToMessage, typeToCount);
 }
 
 
@@ -52,7 +52,7 @@ app.listen(3000, () => {
 });
 
 
-function performAnalysis (fileName){
+function performAnalysis (fileName, lineToMessage, typeToCount){
     exec(`./cpp/CompileCheck ${fileName}`, (err, stdout, stderr) => {
 
         if (err) {
@@ -73,11 +73,18 @@ function performAnalysis (fileName){
                 console.log(lineToMessage);
                 console.log("type to count mapping: ");
                 console.log(typeToCount);
+
+
                 console.log("\nYour program output: \n");
                 exec('./cpp/main.out', (err, stdout, stderr) => {
                     console.log(`stdout: ${stdout}`);
-                    //console.log(`stderr: ${stderr}`);
-                });
+                })
+                var lineToMessageJSON = JSON.stringify(lineToMessage);
+                var typeToCountJSON = JSON.stringify(typeToCount);
+                var mergedReport = {lineToMessage:lineToMessageJSON, typeToCount:typeToCountJSON};
+                var mergedJSONreport = JSON.stringify(mergedReport);
+                return mergedJSONreport;
+
             })
         }
         else {
@@ -85,6 +92,5 @@ function performAnalysis (fileName){
         }
     });
 }
-
 
 
