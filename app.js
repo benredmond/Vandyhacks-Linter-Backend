@@ -66,9 +66,17 @@ app.post('/upload', parser.single("image"), function(req, res, next) {
     res.redirect('/');
     readImg("./images/" + req.file.filename, (imgText) => {
         let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
-        fs.writeFile('./cpp/imgtext.cpp', content, () => {
+        fs.writeFile('./cpp/outputfile.cpp', content, () => {
             console.log(imgText);
         });
+    });
+});
+
+app.post('/parseText', (req, res) => {
+    res.redirect('/');
+    let content = '#include <iostream>\nint main() {\n' + req.body.comment + 'return 0;\n}';
+    fs.writeFile('./cpp/outputfile.cpp', content, () => {
+        console.log("done");
     });
 });
 
