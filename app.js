@@ -7,6 +7,10 @@ const path = require('path');
 const readImg = require('./gcp.js');
 const multer = require("multer");
 const fs = require("fs");
+const alg = require('./scoreAlgorithm');
+
+app.use(bodyParser.json({limit: '10mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,42 +23,40 @@ let storage = multer.diskStorage({
 
 let parser = multer({storage: storage});
 
-// app.use(bodyParser.json({limit: '10mb', extended: true}));
-// app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+let lineToMessage = {};
+let typeToCount = {error: 0, warning: 0, style: 0};
+function main(callback) {
+    exec('./cpp/Scripting main', (err, stdout, stderr) => {
 
-// let lineToMessage = {};
-// let typeToCount = {error: "0", warning: "0", style: "0"};
-// function main(callback) {
-//     exec('./cpp/Scripting main', (err, stdout, stderr) => {
-//         exec('./cpp/compilecheck imgtext', (err, stdout, stderr) => {
-//
-//             if (err) {
-//                 // node couldn't execute the command
-//                 console.log("BAD");
-//                 return;
-//             }
-//
-//             // if (stdout.toString().contains("EXIT CODE: 0")) {
-//             //     console.log("successful");
-//             // }
-//
-//             console.log(`stdout: ${stdout}`);
-//             console.log(`stderr: ${stderr}`);
-//             parse.parse(lineToMessage, typeToCount, stdout);
-//             console.log(lineToMessage);
-//             console.log (typeToCount);
-//             callback(stdout);
-//
-//         });
-//     });
-// }
-//
+        if (err) {
+            // node couldn't execute the command
+            console.log("BAD");
+            return;
+        }
+
+        // if (stdout.toString().contains("EXIT CODE: 0")) {
+        //     console.log("successful");
+        // }
+
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        parse.parse(lineToMessage, typeToCount, stdout);
+        console.log(alg.calculateScore(typeToCount));
+        console.log("line to message mapping:");
+        console.log(lineToMessage);
+        console.log("type to count mapping: ");
+        console.log(typeToCount);
+        callback(stdout);
+    });
+}
+
 // main(() => {
 //     exec('./cpp/main.out', (err, stdout, stderr) => {
 //         console.log(`stdout: ${stdout}`);
 //         console.log(`stderr: ${stderr}`);
 //     });
 // });
+
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
