@@ -3,10 +3,6 @@ const fs = require('fs');
 
 // Creates a client
 const client = new vision.ImageAnnotatorClient();
-
-/**
- * TODO(developer): Uncomment the following line before running the sample.
- */
 const fileName = `./testimg.jpg`;
 
 const request = {
@@ -21,6 +17,8 @@ client
     .documentTextDetection(request)
     .then(results => {
         const fullTextAnnotation = results[0].fullTextAnnotation;
+        let content = '#include <iostream>\nint main() {\n' + fullTextAnnotation.text + 'return 0;\n}';
+        fs.writeFile('./cpp/imgtext.cpp', content);
         console.log(`Full text: ${fullTextAnnotation.text}`);
     })
     .catch(err => {

@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 
 function main(callback) {
-    exec('./cpp/scripting main', (err, stdout, stderr) => {
+    exec('./cpp/compilecheck imgtext', (err, stdout, stderr) => {
         if (err) {
             // node couldn't execute the command
             console.log("BAD");
