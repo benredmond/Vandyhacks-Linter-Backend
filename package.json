@@ -19,6 +19,7 @@
   "dependencies": {
     "@google-cloud/storage": "^2.3.0",
     "@google-cloud/vision": "^0.22.1",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4"
   }
 }
