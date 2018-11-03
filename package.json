@@ -18,6 +18,7 @@
   "homepage": "https://github.com/benredmond/Vandyhacks-Linter-Backend#readme",
   "dependencies": {
     "@google-cloud/storage": "^2.3.0",
-    "@google-cloud/vision": "^0.22.1"
+    "@google-cloud/vision": "^0.22.1",
+    "express": "^4.16.4"
   }
 }

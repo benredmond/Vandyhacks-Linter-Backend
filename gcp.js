@@ -3,7 +3,7 @@ const fs = require('fs');
 
 // Creates a client
 const client = new vision.ImageAnnotatorClient();
-const fileName = `./testimg.jpg`;
+const fileName = `./IMG_1170.jpg`;
 
 const request = {
     image: {
