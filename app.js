@@ -1,5 +1,6 @@
 const { exec } = require('child_process');
 const parse = require('./parseAndMap');
+const alg = require('./scoreAlgorithm');
 
 let lineToMessage = {};
 let typeToCount = {error: 0, warning: 0, style: 0};
@@ -19,6 +20,7 @@ function main(callback) {
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);
         parse.parse(lineToMessage, typeToCount, stdout);
+        console.log(alg.calculateScore(typeToCount));
         console.log("line to message mapping:");
         console.log(lineToMessage);
         console.log("type to count mapping: ");
