@@ -23,27 +23,27 @@ let storage = multer.diskStorage({
 
 let parser = multer({storage: storage});
 
-let lineToMessage = {};
-let typeToCount = {error: 0, warning: 0, style: 0};
-
 function main(callback) {
     let fileName = "main";
     performAnalysis(fileName, lineToMessage, typeToCount);
 }
 
-function performAnalysis (fileName, lineToMessage, typeToCount){
+function performAnalysis (fileName, callback){
+    let lineToMessage = {};
+    let typeToCount = {error: 0, warning: 0, style: 0};
+
     exec(`./cpp/CompileCheck ${fileName}`, (err, stdout, stderr) => {
 
         if (err) {
             // node couldn't execute the command
             console.log("Error when reading the file!");
-            return;
+            callback(null);
         }
 
-        let errorCode = stdout;
-        console.log("YOUR CODE FINISHED WITH " + stdout);
-        if (errorCode.includes("EXIT CODE: 0")) {
-            exec('./cpp/Scripting main', (err, stdout, stderr) => {
+        // let errorCode = stdout;
+        // console.log("YOUR CODE FINISHED WITH " + stdout);
+        if (stdout.includes("EXIT CODE: 0")) {
+            exec(`./cpp/Scripting ${fileName}`, (err, stdout, stderr) => {
                 console.log("\n" + "Grading...");
                 console.log(stdout);
                 console.log("the errors maps read:");
@@ -54,20 +54,24 @@ function performAnalysis (fileName, lineToMessage, typeToCount){
                 console.log(typeToCount);
 
 
-                console.log("\nYour program output: \n");
-                exec('./cpp/main.out', (err, stdout, stderr) => {
-                    console.log(`stdout: ${stdout}`);
-                })
-                var lineToMessageJSON = JSON.stringify(lineToMessage);
-                var typeToCountJSON = JSON.stringify(typeToCount);
-                var mergedReport = {lineToMessage:lineToMessageJSON, typeToCount:typeToCountJSON};
-                var mergedJSONreport = JSON.stringify(mergedReport);
-                return mergedJSONreport;
-
+                console.log("\nYour program output: ");
+                exec(`./cpp/${fileName}.out`, (err, stdout, stderr) => {
+                    console.log(`${stdout}`);
+                    let mergedReport = {
+                        lineToMessage,
+                        typeToCount,
+                        output: stdout
+                    };
+                    // let mergedJSONreport = JSON.stringify(mergedReport);
+                    callback(mergedReport);
+                });
+                // let lineToMessageJSON = JSON.stringify(lineToMessage);
+                // let typeToCountJSON = JSON.stringify(typeToCount);
             })
         }
         else {
             console.log("Process must finish exit code 0 before receiving a grade!");
+            callback(null);
         }
     });
 }
@@ -77,20 +81,44 @@ app.get('/', (req, res) => {
 });
 
 app.post('/upload', parser.single("image"), function(req, res, next) {
-    res.redirect('/');
+    // res.redirect('/');
     readImg("./images/" + req.file.filename, (imgText) => {
         let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
         fs.writeFile('./cpp/outputfile.cpp', content, () => {
-            performAnalysis('outputfile');
+            performAnalysis('outputfile', (output) => {
+                if (output !== null) {
+                    // res = JSON.parse(res);
+                    alg.calculateScore(output.typeToCount, (score) => {
+                        output["score"] = score;
+                        res.send(output);
+                        // res.redirect('/');
+                    });
+                    // console.log(res);
+                } else {
+                    res.send(null);
+                }
+            });
         });
     });
 });
 
 app.post('/parseText', (req, res) => {
-    res.redirect('/');
+    // res.redirect('/');
     let content = '#include <iostream>\nint main() {\n' + req.body.comment + 'return 0;\n}';
     fs.writeFile('./cpp/outputfile.cpp', content, () => {
-        performAnalysis('outputfile');
+        performAnalysis('outputfile', (output) => {
+            if (output !== null) {
+                // res = JSON.parse(res);
+                 alg.calculateScore(output.typeToCount, (score) => {
+                     output["score"] = score;
+                     res.send(output);
+                     // res.redirect('/');
+                 });
+                // console.log(res);
+            } else {
+                res.send(null);
+            }
+        });
     });
 });
 
