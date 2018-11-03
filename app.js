@@ -5,6 +5,8 @@ let lineToMessage = {};
 let typeToCount = {error: "0", warning: "0", style: "0"};
 function main(callback) {
     exec('./cpp/Scripting main', (err, stdout, stderr) => {
+    exec('./cpp/compilecheck imgtext', (err, stdout, stderr) => {
+
         if (err) {
             // node couldn't execute the command
             console.log("BAD");
