@@ -122,6 +122,4 @@ app.post('/parseText', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('We are live on ' + 3000);
-});
+app.listen(process.env.PORT || 3000);
