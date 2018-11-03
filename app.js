@@ -31,27 +31,6 @@ function main(callback) {
     performAnalysis(fileName, lineToMessage, typeToCount);
 }
 
-
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
-
-app.post('/upload', parser.single("image"), function(req, res, next) {
-    res.redirect('/');
-    readImg("./images/" + req.file.filename, (imgText) => {
-        let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
-        fs.writeFile('./cpp/imgtext.cpp', content, () => {
-            console.log(imgText);
-        });
-    });
-});
-
-app.listen(3000, () => {
-    console.log('We are live on ' + 3000);
-});
-
-
 function performAnalysis (fileName, lineToMessage, typeToCount){
     exec(`./cpp/CompileCheck ${fileName}`, (err, stdout, stderr) => {
 
@@ -93,4 +72,28 @@ function performAnalysis (fileName, lineToMessage, typeToCount){
     });
 }
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
 
+app.post('/upload', parser.single("image"), function(req, res, next) {
+    res.redirect('/');
+    readImg("./images/" + req.file.filename, (imgText) => {
+        let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
+        fs.writeFile('./cpp/outputfile.cpp', content, () => {
+            performAnalysis('outputfile');
+        });
+    });
+});
+
+app.post('/parseText', (req, res) => {
+    res.redirect('/');
+    let content = '#include <iostream>\nint main() {\n' + req.body.comment + 'return 0;\n}';
+    fs.writeFile('./cpp/outputfile.cpp', content, () => {
+        performAnalysis('outputfile');
+    });
+});
+
+app.listen(3000, () => {
+    console.log('We are live on ' + 3000);
+});
