@@ -1,33 +1,45 @@
 module.exports = {
 
-    parse: function (lineToDescription, typeToCount, line){
-        var firstColonIndex;
-        var secondColonIndex;
-        var thirdColonIndex;
-        var colonCount = 0;
-        var index = 0;
-        while (index != line.length){
-            if (line.charAt(index) == ':'){
-                colonCount++;
-                if (colonCount == 1){
-                    firstColonIndex = index;
+    parse: function (lineToDescription, typeToCount, errors){
+        //perform some formatting - remove blank line at end and split error block
+        //into an array of errors
+        var trimmedErrors = errors.substr(0, errors.length - 1);
+        var lines = trimmedErrors.split("\n");
+        //iterate through each error
+        var errorNum = 0;
+        while (errorNum !== lines.length){
+            //keep track of the indexes of the colons
+            var index = 0;
+            var colonCount = 0;
+            var firstColonIndex;
+            var secondColonIndex;
+            var thirdColonIndex;
+            //iterate through characters in an error
+            while (index <= lines[errorNum].length){
+                if ((lines[errorNum])[index] === ':'){
+                    colonCount++;
+                    if (colonCount === 1){
+                        firstColonIndex = index;
+                    }
+                    else if (colonCount === 2){
+                        secondColonIndex = index;
+                    }
+                    else if (colonCount === 3){
+                        thirdColonIndex = index;
+                    }
                 }
-                else if (colonCount == 2){
-                    secondColonIndex = index;
-                }
-                else if (colonCount == 3){
-                    thirdColonIndex = index;
-                }
+                index++;
             }
-            index++;
-        }
-        var lineNum = line.substr(firstColonIndex + 1, (secondColonIndex - (firstColonIndex + 1)));
-        var messageType = line.substr(secondColonIndex + 2, (thirdColonIndex - (secondColonIndex + 2)));
-        var message = line.substr(thirdColonIndex + 2, line.length - 1);
+            //let's map these colon-blocks
+            if (colonCount !== 0) {
+                var lineNum = lines[errorNum].substr(firstColonIndex + 1, (secondColonIndex - (firstColonIndex + 1)));
+                var messageType = lines[errorNum].substr(secondColonIndex + 2, (thirdColonIndex - (secondColonIndex + 2)));
+                var message = lines[errorNum].substr(thirdColonIndex + 2, lines[errorNum].length - 1);
+                lineToDescription[lineNum] = message;
+                typeToCount[messageType] = typeToCount[messageType] + 1;
 
-        lineToDescription[lineNum] = message;
-        var newCount = typeToCount[messageType];
-        newCount++;
-        typeToCount[messageType] = newCount;
+            }errorNum++;
+        }
+
     }
 }

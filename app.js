@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 const parse = require('./parseAndMap');
 
 let lineToMessage = {};
-let typeToCount = {error: "0", warning: "0", style: "0"};
+let typeToCount = {error: 0, warning: 0, style: 0};
 function main(callback) {
     exec('./cpp/Scripting main', (err, stdout, stderr) => {
     exec('./cpp/compilecheck imgtext', (err, stdout, stderr) => {
@@ -20,7 +20,9 @@ function main(callback) {
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);
         parse.parse(lineToMessage, typeToCount, stdout);
+        console.log("line to message mapping:");
         console.log(lineToMessage);
+        console.log("type to count mapping: ");
         console.log (typeToCount);
         callback(stdout);
 
