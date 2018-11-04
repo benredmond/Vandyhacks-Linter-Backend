@@ -31,5 +31,14 @@ body{
 
 textarea{
 	font-family: monospace;
-	font-size: 1.5rem;
+	font-size: 1.25rem;
+}
+
+.btn{
+	height: 60%;
+	width: 60%;
+}
+
+.camera{
+	align-content: right;
 }
