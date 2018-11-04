@@ -60,8 +60,6 @@ function performAnalysis (fileName, code, callback){
                     typeToCount,
                     output: compileResults["stdout"]
                 };
-
-
                 callback(mergedReport);
             })
         }
