@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Team</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <style>
+            .card {
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+                width: 20%;
+            }
+            
+            .card:hover {
+                box-shadow: 0 8px 24px 0 rgba(0,0,0,0.2);
+            }
+            
+            .container {
+                padding: 2px 16px;
+            }
+            </style>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <center><h1 class="display-3" style="color:#61ca90">Meet the Team</h1></center>
+    <div class="card">
+            <img src="https://media.gq.com/photos/5a0dcaad4e857d64403186ed/3:2/w_1200/kyrie-irving-gq.jpg" alt="Avatar" style="width:100%">
+            <div class="container">
+              <h4><b>Vedant Gandhewar</b></h4>
+              <p>Atlanta, GA</p>
+            </div>
+    </div> 
+
+    <form>
+            <input type="text" id="response" name="response"/>
+            <input type="button"/>
+    </form>
+
+    <form>
+        <input type="file" accept="image/*;capture=camera">
+    </form>
+
+    <script>
+        var button = document.getElementById("theButton"),
+        value =  button.form.valueId.value;
+        $.ajax({
+            url: 'users.php',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify( { "code": $('response').val() } ),
+            processData: false,
+            success: function( data, textStatus, jQxhr ){
+                $('#response pre').html( JSON.stringify( data ) );
+            },
+            error: function( jqXhr, textStatus, errorThrown ){
+                console.log( errorThrown );
+            }
+});
+    </script>
+
+
+  </body>
+</html>
