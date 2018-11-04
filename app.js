@@ -60,8 +60,7 @@ function performAnalysis (fileName, code, callback){
                     typeToCount,
                     output: compileResults["stdout"]
                 };
-                console.log("mergedReport looks like this:");
-                console.log(mergedReport);
+
 
                 callback(mergedReport);
             })
