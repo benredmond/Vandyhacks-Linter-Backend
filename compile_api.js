@@ -1,20 +1,25 @@
 const request = require('request');
 
-request({
-        url: 'https://api.hackerearth.com/v3/code/run/',
-        form: {
-            'client_secret': '22212124f2f0832652e5413bbe99b6b5766029a5',
-            'source': "#include <iostream>\n" +
-            "int main() {\n" +
-            "    std::cout << \"TEST\" << std::endl;\n" +
-            "    return 0;\n" +
-            "}",
-            'lang': "CPP"
+module.exports = function (code, callback) {
+    let json = {
+        "source_code": code,
+        "language": "cpp",
+        "api_key": "guest"
+    };
+
+    request({
+            url: 'http://api.paiza.io/runners/create',
+            method: "POST",
+            json
         },
-        method: "POST"
-    },
-    function (error, response, body) {
-        console.log('error:', error);
-        console.log('statusCode:', response && response.statusCode);
-        console.log('body:', body);
-    });
+        function (error, response, body) {
+            console.log('body:', body);
+            setTimeout(function() {
+                request.get(`http://api.paiza.io/runners/get_details?id=${body.id}&api_key=guest`, function (error, response, body) {
+                    console.log(body);
+                    callback(body);
+                });
+            }, 3000);
+
+        });
+};

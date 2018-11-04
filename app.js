@@ -8,6 +8,7 @@ const readImg = require('./gcp.js');
 const multer = require("multer");
 const fs = require("fs");
 const alg = require('./scoreAlgorithm');
+const compile = require('./compile_api');
 
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
@@ -24,26 +25,19 @@ let storage = multer.diskStorage({
 
 let parser = multer({storage: storage});
 
-function main(callback) {
-    let fileName = "main";
-    performAnalysis(fileName, lineToMessage, typeToCount);
-}
-
-function performAnalysis (fileName, callback){
+function performAnalysis (fileName, code, callback){
     let lineToMessage = {};
     let typeToCount = {error: 0, warning: 0, style: 0};
 
-    exec(`./cpp/CompileCheck ${fileName}`, (err, stdout, stderr) => {
-
-        if (err) {
-            // node couldn't execute the command
+    compile(code, (compileResults) => {
+        compileResults = JSON.parse(compileResults);
+        if (compileResults["status"] !== "completed") {
             console.log("Error when reading the file!");
             callback(null);
         }
 
-        // let errorCode = stdout;
-        console.log("YOUR CODE FINISHED WITH " + stdout);
-        if (stdout.includes("EXIT CODE: 0")) {
+        console.log("YOUR CODE FINISHED WITH ERROR CODE " + compileResults["build_exit_code"]);
+        if (compileResults["build_exit_code"] === 0) {
             exec(`./cpp/Scripting ${fileName}`, (err, stdout, stderr) => {
                 console.log("\n" + "Grading...");
                 console.log(stdout);
@@ -54,20 +48,13 @@ function performAnalysis (fileName, callback){
                 console.log("type to count mapping: ");
                 console.log(typeToCount);
 
-
                 console.log("\nYour program output: ");
-                exec(`./cpp/${fileName}.out`, (err, stdout, stderr) => {
-                    console.log(`${stdout}`);
-                    let mergedReport = {
-                        lineToMessage,
-                        typeToCount,
-                        output: stdout
-                    };
-                    // let mergedJSONreport = JSON.stringify(mergedReport);
-                    callback(mergedReport);
-                });
-                // let lineToMessageJSON = JSON.stringify(lineToMessage);
-                // let typeToCountJSON = JSON.stringify(typeToCount);
+                let mergedReport = {
+                    lineToMessage,
+                    typeToCount,
+                    output: compileResults["stdout"]
+                };
+                callback(mergedReport);
             })
         }
         else {
@@ -86,7 +73,7 @@ app.post('/upload', parser.single("image"), function(req, res, next) {
     readImg("./images/" + req.file.filename, (imgText) => {
         let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
         fs.writeFile('./cpp/outputfile.cpp', content, () => {
-            performAnalysis('outputfile', (output) => {
+            performAnalysis('outputfile', content, (output) => {
                 if (output !== null) {
                     // res = JSON.parse(res);
                     alg.calculateScore(output.typeToCount, (score) => {
@@ -107,7 +94,7 @@ app.post('/parseText', (req, res) => {
     // res.redirect('/');
     let content = '#include <iostream>\nint main() {\n' + req.body.comment + 'return 0;\n}';
     fs.writeFile('./cpp/outputfile.cpp', content, () => {
-        performAnalysis('outputfile', (output) => {
+        performAnalysis('outputfile', content, (output) => {
             if (output !== null) {
                 // res = JSON.parse(res);
                  alg.calculateScore(output.typeToCount, (score) => {
