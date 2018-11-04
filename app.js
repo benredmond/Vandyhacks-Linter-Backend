@@ -63,8 +63,8 @@ function performAnalysis (fileName, code, callback){
                 console.log("mergedReport looks like this:");
                 console.log(mergedReport);
                 
-                return mergedReport;
                 callback(mergedReport);
+                return mergedReport;
             })
         }
         else {
