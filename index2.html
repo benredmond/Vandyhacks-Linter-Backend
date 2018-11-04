@@ -13,85 +13,99 @@
 </head>
 
 <body>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-        <div class="container-fluid name">
-            <a class="navbar-brand" href="index.html"><img src="images/logo.png"></a>
-            <h2>MasterKode</h2>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=#navbarResponsive>
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </nav>
-    <div class="container-fluid">
-        <div class="row welcome text-center">
-            <h1 class = "col-12 display-2 welcome-text"> Welcome to MasterKode </h1>
-            <h4 class="muted-text">First time user? Click <a href="#">here.</a></h4>
-        </div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <div class="container-fluid name">
+        <a class="navbar-brand" href="index.html"><img src="images/logo.png"></a>
+        <h2>MasterKode</h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=#navbarResponsive>
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="camera container-fluid col-xs-12 col-md-3">
-                <a class="btn btn-large btn-danger" href="#">
-  <i class="icon-flag icon-2x pull-left"></i> Font Awesome<br>Version 3.6.0</a>
-            </div>
-            <div class="container-fluid col-xs-12 col-md-6">
+</nav>
+<div class="container-fluid">
+    <div class="row welcome text-center">
+        <h1 class="col-12 display-2 welcome-text"> Welcome to MasterKode </h1>
+        <h4 class="muted-text">First time user? Click <a href="#">here.</a></h4>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="camera container-fluid col-xs-12 col-md-3">
+            <a class="btn btn-large btn-danger" href="#">
+                <i class="icon-flag icon-2x pull-left"></i> Font Awesome
+                <br>Version 3.6.0</a>
+        </div>
+        <div class="container-fluid col-xs-12 col-md-6">
                 <textarea id="response" rows="8" cols="50" placeholder="Your code goes here!">
                 </textarea>
-                <button onClick='analyze()' id="button" type="submit">Submit</button>
-                
-            </div>
-            <div class="container-fluid col-xs-12 col-md-3">
-                <h4>run goes here</h4>
-            </div>
-            <form enctype="multipart/form-data" method="post" name="img-upload">
-                <input type="file" name="image">
-                <input type="submit" value="Upload">
-            </form>
+            <button onClick='analyze()' id="button" type="submit">Submit</button>
+
         </div>
-        <script>
-            function analyze() {
-                var codeSnippet = document.getElementById("response").value;
-
-                $.ajax({
-                    url: 'https://vandyhacks-codevision.herokuapp.com/parseText',
-                    dataType: 'json',
-                    type: 'post',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ comment: codeSnippet }),
-                    success: function( data, textStatus, jQxhr ){
-                        console.log("success");
-                        console.log(data);
-                    },
-                    error: function( jqXhr, textStatus, errorThrown ){
-                        console.log("4");
-                        console.log( errorThrown );
-                    }
-                });
-            }
-
-                $("form[name='img-upload']").submit(function(e) {
-                    var formData = new FormData($(this)[0]);
-
-                    $.ajax({
-                        url: "https://vandyhacks-codevision.herokuapp.com/upload",
-                        type: "POST",
-                        data: formData,
-                        key: "image",
-                        success: function (msg) {
-                            console.log(JSON.stringify(msg));
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    });
-
-                    e.preventDefault();
-                });
-        </script>
+        <div class="container-fluid col-xs-12 col-md-3">
+            <h4>run goes here</h4>
+        </div>
+        <form enctype="multipart/form-data" name="img-upload">
+            <input type="file" name="image">
+            <input type="submit" value="Upload">
+        </form>
     </div>
+</div>
+
+<script>
+    function analyze() {
+        var codeSnippet = document.getElementById("response").value;
+
+        $.ajax({
+            url: 'https://vandyhacks-codevision.herokuapp.com/parseText',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                comment: codeSnippet
+            }),
+            success: function(data) {
+                // CODE COMPILES
+                console.log(JSON.stringify(data));
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                // CODE DOESN'T COMPILE
+                console.log("4");
+                console.log(errorThrown);
+            }
+        });
+    }
+</script>
+<script>
+    $("form[name='img-upload']").submit(function(e) {
+        var formData = new FormData($(this)[0]);
+
+        $.ajax({
+            url: "https://vandyhacks-codevision.herokuapp.com/upload",
+            type: "POST",
+            data: formData,
+            key: "image",
+            success: function(msg) {
+                if (msg === "bad") {
+                    //CODE DOESNT COMPILE
+                } else {
+                    // CODE COMPILES
+                }
+                console.log(JSON.stringify(msg));
+                //uncollapse class
+                // fill in data
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
+        e.preventDefault();
+    });
+</script>
 </body>
+
 </html>
