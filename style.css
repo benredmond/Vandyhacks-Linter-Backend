@@ -20,6 +20,16 @@ body{
 	color: white;
 }
 
-.button {
-	height: 10rem;
+.container-fluid{
+	text-align: center;
+}
+
+#user-code{
+	line-height: 3rem;
+	min-height: 15rem;
+}
+
+textarea{
+	font-family: monospace;
+	font-size: 1.5rem;
 }
