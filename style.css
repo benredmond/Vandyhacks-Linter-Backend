@@ -1,0 +1,25 @@
+.name{
+	justify-content: left !important;
+}
+
+
+body{
+	background-image: url(images/background_1.png);
+	padding-bottom: 500rem;
+}
+
+.welcome{
+	justify-content: center;
+}
+.welcome-text{
+	color: white;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.muted-text{
+	color: white;
+}
+
+.button {
+	height: 10rem;
+}
