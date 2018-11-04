@@ -14,6 +14,12 @@ const compile = require('./compile_api');
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, __dirname + '/images/')      //you tell where to upload the files,
@@ -65,25 +71,23 @@ function performAnalysis (fileName, code, callback){
 }
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/index2.html');
 });
 
 app.post('/upload', parser.single("image"), function(req, res, next) {
-    // res.redirect('/');
+
+    console.log(req);
     readImg("./images/" + req.file.filename, (imgText) => {
         let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
         fs.writeFile('./cpp/outputfile.cpp', content, () => {
             performAnalysis('outputfile', content, (output) => {
                 if (output !== null) {
-                    // res = JSON.parse(res);
                     alg.calculateScore(output.typeToCount, (score) => {
                         output["score"] = score;
                         res.send(output);
-                        // res.redirect('/');
                     });
-                    // console.log(res);
                 } else {
-                    res.send(null);
+                    res.send('bad');
                 }
             });
         });
@@ -104,7 +108,7 @@ app.post('/parseText', (req, res) => {
                  });
                 // console.log(res);
             } else {
-                res.send(null);
+                res.send('bad');
             }
         });
     });

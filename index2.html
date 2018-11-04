@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<!-- <<<<<<< HEAD -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -36,7 +37,7 @@
                 </textarea>
             </div>
                 <div class="run-btn container-fluid col-xs-12 col-md-3">
-                    <a class="run btn btn-large btn-info" href="#">
+                    <a onClick='analyze()' class="run btn btn-large btn-info">
   <i class="fa fa-angle-double-right fa-5x"></i> <br>Run your code!<br></a>
                 </div>
         </div>
@@ -45,3 +46,76 @@
                 </textarea>
             </div>
 </body>
+<!-- =======
+
+        <div class="container-fluid col-xs-12 col-md-6">
+                <textarea id="response" rows="8" cols="50" placeholder="Your code goes here!">
+                </textarea>
+            <button onClick='analyze()' id="button" type="submit">Submit</button>
+
+        </div>
+        <div class="container-fluid col-xs-12 col-md-3">
+            <h4>run goes here</h4>
+        </div>
+        <form enctype="multipart/form-data" name="img-upload">
+            <input type="file" name="image">
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+</div> -->
+
+<script>
+    function analyze() {
+        var codeSnippet = document.getElementById("response").value;
+
+        $.ajax({
+            url: 'https://vandyhacks-codevision.herokuapp.com/parseText',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                comment: codeSnippet
+            }),
+            success: function(data) {
+                // CODE COMPILES
+                console.log(JSON.stringify(data));
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                // CODE DOESN'T COMPILE
+                console.log("4");
+                console.log(errorThrown);
+            }
+        });
+    }
+</script>
+<script>
+    $("form[name='img-upload']").submit(function(e) {
+        var formData = new FormData($(this)[0]);
+
+        $.ajax({
+            url: "https://vandyhacks-codevision.herokuapp.com/upload",
+            type: "POST",
+            data: formData,
+            key: "image",
+            success: function(msg) {
+                if (msg === "bad") {
+                    //CODE DOESNT COMPILE
+                } else {
+                    // CODE COMPILES
+                }
+                console.log(JSON.stringify(msg));
+                //uncollapse class
+                // fill in data
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
+        e.preventDefault();
+    });
+</script>
+</body>
+
+</html>
+
