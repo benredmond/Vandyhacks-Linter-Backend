@@ -60,7 +60,8 @@
             success: function(data) {
                 // CODE COMPILES
                 //console.log(JSON.stringify(data));
-                $("#Text").value = (JSON.stringify(data));
+                // $("#Text").append(JSON.stringify(data));
+                document.getElementById('Text').value = JSON.stringify(data);
             },
             error: function(jqXhr, textStatus, errorThrown) {
                 // CODE DOESN'T COMPILE
