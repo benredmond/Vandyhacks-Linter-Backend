@@ -63,9 +63,9 @@ function performAnalysis (fileName, code, callback){
                 console.log("mergedReport looks like this:");
                 console.log(mergedReport);
                 
-                callback(mergedReport);
                 mergedReportJSON = JSON.stringify(mergedReport);
                 console.log(mergedReportJSON);
+                callback(mergedReport);
             })
         }
         else {
