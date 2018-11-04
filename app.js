@@ -55,8 +55,6 @@ function performAnalysis (fileName, code, callback){
                 console.log(typeToCount);
 
                 console.log("\nYour program output: ");
-                console.log("output????");
-                console.log(output);
                 let mergedReport = {
                     lineToMessage,
                     typeToCount,
