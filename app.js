@@ -55,7 +55,8 @@ function performAnalysis (fileName, code, callback){
                 console.log(typeToCount);
 
                 console.log("\nYour program output: ");
-                
+                console.log("output????");
+                console.log(output);
                 let mergedReport = {
                     lineToMessage,
                     typeToCount,
@@ -63,7 +64,7 @@ function performAnalysis (fileName, code, callback){
                 };
                 console.log("mergedReport looks like this:");
                 console.log(mergedReport);
-                console.log(output);
+                
                 return mergedReport;
                 callback(mergedReport);
             })
