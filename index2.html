@@ -33,18 +33,37 @@
     </form>
 </div>
     <div class="container-fluid input-box ">
-        <textarea id="response" rows="8" cols="50" placeholder="Your code goes here!">
-                </textarea>
-            </div>
+        <textarea id="response" rows="8" cols="50">
+        </textarea>
+    </div>
         <div class="container-fluid col-xs-12 col-md-6">
             
             <button class="btn btn-info btn-large" onClick='analyze()' id="button" type="submit">Submit</button>
         </div>
-        <div class="container-fluid input-box col-xs-12 col-md-6">
+        <div id="infoContainer" class="card container-fluid input-box col-xs-12 col-md-6">
+            <div id="scoreDiv" className="collapse">
+                <h2 id="score"></h2>
+            </div>
+            <div id="outputDiv" className="collapse">
+                <h3 id="output"></h3>
+            </div>
+
+            <div id="warningNum" className="collapse">
+                <h3 id="numWarnings"></h3>
+            </div>
+            <div id="errorNum" className="collapse">
+                <h3 id="numErrors"></h3>
+            </div>
+            <div id="styleNum" className="collapse">
+                <h3 id="numStyle"></h3>
+            </div>
+
+            <div id="errorList" className="collapse"></div>
+
             <!-- <p id="Text">asdf</p> -->
-            <textarea id = "Text" rows="8" cols="50" placeholder="Your grades">
-    </textarea>
         </div>
+
+
 </body>
 <script>
     function analyze() {
@@ -61,12 +80,37 @@
                 // CODE COMPILES
                 //console.log(JSON.stringify(data));
                 // $("#Text").append(JSON.stringify(data));
-                document.getElementById('Text').value = JSON.stringify(data);
+                document.getElementById("score").innerText = "Your Score: " + data.score;
+                document.getElementById("scoreDiv").className = "";
+
+                document.getElementById("output").innerText = "Your Output: " + data.output;
+                if (data.output === "") document.getElementById("output").innerText = "No Output";
+                document.getElementById("outputDiv").className = "";
+
+                document.getElementById("numWarnings").innerText = "Number of Warnings: " + data.typeToCount.warning;
+                document.getElementById("warningNum").className = "";
+                document.getElementById("numErrors").innerText = "Number of Errors " + data.typeToCount.error;
+                document.getElementById("errorNum").className = "";
+                document.getElementById("numStyle").innerText = "Number of Style Issues: " + data.typeToCount.style;
+                document.getElementById("styleNum").className = "";
+
+
+
+                let html = "<ul>";
+                $.each(data.lineToMessage, function (index, item) {
+                    //console.log(item)
+                    html += "<li>" + "Line # " + index + ": " + item + "</li>";
+
+                });
+                html+="</ul>";
+
+                $("#errorList").empty();
+                $("#errorList").append(html);
+
             },
             error: function(jqXhr, textStatus, errorThrown) {
-                // CODE DOESN'T COMPILE
-                console.log("4");
-                console.log(errorThrown);
+                let html = "<h3>Your Code Doesn't Compile</h3>";
+                $("#errorList").append(html);
             }
         });
     }
@@ -81,11 +125,35 @@
             key: "image",
             success: function(msg) {
                 if (msg === "bad") {
-                    //CODE DOESNT COMPILE
+                    let html = "<h3>Your Code Doesn't Compile</h3>";
+                    $("#errorList").append(html);
                 } else {
-                    // CODE COMPILES
+                    document.getElementById("score").innerText = "Your Score: " + msg.score;
+                    document.getElementById("scoreDiv").className = "";
+
+                    document.getElementById("output").innerText = "Your Output: " + msg.output;
+                    if (msg.output === "") document.getElementById("output").innerText = "No Output";
+                    document.getElementById("outputDiv").className = "";
+
+                    document.getElementById("numWarnings").innerText = "Number of Warnings: " + msg.typeToCount.warning;
+                    document.getElementById("warningNum").className = "";
+                    document.getElementById("numErrors").innerText = "Number of Errors " + msg.typeToCount.error;
+                    document.getElementById("errorNum").className = "";
+                    document.getElementById("numStyle").innerText = "Number of Style Issues: " + msg.typeToCount.style;
+                    document.getElementById("styleNum").className = "";
+
+                    let html = "<ul>";
+                    $.each(msg.lineToMessage, function (index, item) {
+                        //console.log(item)
+                        html += "<li>" + "Line # " + index + ": " + item + "</li>";
+
+                    });
+                    html+="</ul>";
+
+                    $("#errorList").empty();
+                    $("#errorList").append(html);
+
                 }
-                console.log(JSON.stringify(msg));
                 //uncollapse class
                 // fill in data
             },
