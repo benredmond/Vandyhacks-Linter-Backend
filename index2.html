@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>codeVision</title>
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -17,7 +17,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
     <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
         <a class="navbar-brand" href="index.html"><img src="images/logo.png"></a>
         <h2>codeVision</h2>
@@ -45,6 +44,9 @@
                 <textarea rows="12" cols="40" placeholder="Your grades">
                 </textarea>
             </div>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 <!-- =======
 
@@ -119,3 +121,87 @@
 
 </html>
 
+
+<style type="text/css"> 
+.container-fluid{
+    text-align: center;
+}
+.navbar{
+    justify-content: center;
+}
+
+body{
+    background-image: url(images/background_1.png);
+    padding-bottom: 10rem;
+}
+
+.welcome{
+    justify-content: center;
+}
+.welcome-text{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.muted-text{
+    color: white;
+}
+
+
+
+#user-code{
+    line-height: 3rem;
+    min-height: 15rem;
+}
+
+textarea{
+    font-family: monospace;
+    font-size: 1.25rem;
+}
+
+.input-box{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+
+.camera-btn{
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.input-box{
+    text-align: center;
+}
+
+.run-btn{
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.upload{
+    align-items: center;
+    justify-content: center;
+}
+
+.file_button_container,
+.file_button_container input {
+     height: 47px;
+     width: 263px;
+
+ }
+
+ .file_button_container {
+     background: transparent url(http://i.stack.imgur.com/BT5AB.png);
+     margin-bottom: 2rem;
+ }
+
+ .file_button_container input {
+     opacity: 0;
+ }
+</style>
