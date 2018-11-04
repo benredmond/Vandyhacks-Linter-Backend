@@ -110,6 +110,11 @@
             },
             error: function(jqXhr, textStatus, errorThrown) {
                 $("#errorList").empty();
+                document.getElementById("output").innerText = "";
+                document.getElementById("score").innerText = "";
+                document.getElementById("numWarnings").innerText = "";
+                document.getElementById("numErrors").innerText = "";
+                document.getElementById("numStyle").innerText = "";
                 let html = "<h3>Your Code Doesn't Compile</h3>";
                 $("#errorList").append(html);
             }
@@ -126,6 +131,11 @@
             key: "image",
             success: function(msg) {
                 if (msg === "bad") {
+                    document.getElementById("output").innerText = "";
+                    document.getElementById("score").innerText = "";
+                    document.getElementById("numWarnings").innerText = "";
+                    document.getElementById("numErrors").innerText = "";
+                    document.getElementById("numStyle").innerText = "";
                     $("#errorList").empty();
                     let html = "<h3>Your Code Doesn't Compile</h3>";
                     $("#errorList").append(html);
