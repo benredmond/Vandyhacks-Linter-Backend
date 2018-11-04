@@ -65,7 +65,7 @@ function performAnalysis (fileName, code, callback){
                 
                 callback(mergedReport);
                 mergedReportJSON = JSON.stringify(mergedReport);
-                return mergedReportJSON;
+                console.log(mergedReportJSON);
             })
         }
         else {
