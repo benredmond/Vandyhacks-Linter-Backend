@@ -60,8 +60,7 @@
                 body: JSON.stringify( { "comment": codeSnippet } ),
                 processData: false,
                 success: function( data, textStatus, jQxhr ){
-                    $('#response pre').html( JSON.stringify( data ) );
-                    console.log("success")
+                    console.log("success");
                 },
                 error: function( jqXhr, textStatus, errorThrown ){
                     console.log("4");
