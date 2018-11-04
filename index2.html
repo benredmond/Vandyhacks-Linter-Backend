@@ -38,11 +38,36 @@
                 <button class="btn"><i class="fas fa-camera fa-10x"></i></button>
             </div>
             <div class="container-fluid col-xs-12 col-md-6">
-                <textarea rows="8" cols="50" placeholder="Your code goes here!">
+                <textarea id="response" rows="8" cols="50" placeholder="Your code goes here!">
                 </textarea>
+                <button onClick='analyze()' id="button" type="submit">Submit</button>
+                
             </div>
             <div class="container-fluid col-xs-12 col-md-3">
                 <h4>run goes here</h4>
             </div>
         </div>
+        <script>
+            function analyze() {
+            var codeSnippet = document.getElementById("response").value;
+            
+            $.ajax({
+                url: 'http://localhost:3000/',
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json',
+                body: JSON.stringify( { "comment": codeSnippet } ),
+                processData: false,
+                success: function( data, textStatus, jQxhr ){
+                    $('#response pre').html( JSON.stringify( data ) );
+                    console.log("success")
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log("4");
+                    console.log( errorThrown );
+                }
+            });
+        }
+        
+        </script>
 </body>
