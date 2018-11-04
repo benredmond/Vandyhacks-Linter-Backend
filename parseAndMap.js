@@ -35,7 +35,7 @@ module.exports = {
                 var lineNum = lines[errorNum].substr(firstColonIndex + 1, (secondColonIndex - (firstColonIndex + 1)));
                 var messageType = lines[errorNum].substr(secondColonIndex + 2, (thirdColonIndex - (secondColonIndex + 2)));
                 var message = lines[errorNum].substr(thirdColonIndex + 2, lines[errorNum].length - 1);
-                lineToDescription[lineNum] = message;
+                lineToDescription[lineNum - 2] = message;
                 typeToCount[messageType] = typeToCount[messageType] + 1;
 
             }errorNum++;
