@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,44 +12,38 @@
 </head>
 <body>
 
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
-<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-    <div class="container-fluid name">
-        <a class="navbar-brand" href="index.html"><img src="images/logo.png"></a>
-        <h2>MasterKode</h2>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=#navbarResponsive>
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+        <a class="navbar-brand" href="index.html"><img src="https://i.imgur.com/GOMA1sF.png"></a>
+        <h2>codeVision</h2>
+    </nav>
+    <div class="container-fluid">
+        <div class="row welcome text-center">
+            <h1 class = "col-12 display-3 welcome-text"> Welcome to codeVision! </h1>
+        </div>
     </div>
-</nav>
+                        <form enctype="multipart/form-data" name="img-upload">
+            <input type="file" name="image">
+            <input type="submit" value="Upload">
+        </form>
 <div class="container-fluid">
-    <div class="row welcome text-center">
-        <h1 class="col-12 display-2 welcome-text"> Welcome to MasterKode </h1>
-        <h4 class="muted-text">First time user? Click <a href="#">here.</a></h4>
-        </div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="camera container-fluid col-xs-12 col-md-3">
-            <a class="btn btn-large btn-danger" href="#">
-                <i class="icon-flag icon-2x pull-left"></i> Font Awesome
-                <br>Version 3.6.0</a>
-        </div>
         <div class="container-fluid col-xs-12 col-md-6">
                             <textarea id="response" rows="8" cols="50" placeholder="Your code goes here!">
                 </textarea>
                             <button onClick='analyze()' id="button" type="submit">Submit</button>
         </div>
-        <div class="container-fluid col-xs-12 col-md-3">
-            <h4>run goes here</h4>
-                    <form enctype="multipart/form-data" name="img-upload">
-            <input type="file" name="image">
-            <input type="submit" value="Upload">
-        </form>
-    </div>
 </div>
+<div class="container-fluid input-box col-xs-12 col-md-6">
+                <textarea rows="12" cols="40" placeholder="Your grades">
+                </textarea>
+            </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
 <script>
     function analyze() {
         var codeSnippet = document.getElementById("response").value;
@@ -99,3 +94,87 @@
 </script>
 
 </html> 
+
+<style type="text/css"> 
+.container-fluid{
+    text-align: center;
+}
+.navbar{
+    justify-content: center;
+}
+
+body{
+    background-image: url(https://i.imgur.com/3uYqh0G.png);
+    padding-bottom: 10rem;
+}
+
+.welcome{
+    justify-content: center;
+}
+.welcome-text{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.muted-text{
+    color: white;
+}
+
+
+
+#user-code{
+    line-height: 3rem;
+    min-height: 15rem;
+}
+
+textarea{
+    font-family: monospace;
+    font-size: 1.25rem;
+}
+
+.input-box{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+
+.camera-btn{
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.input-box{
+    text-align: center;
+}
+
+.run-btn{
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.upload{
+    align-items: center;
+    justify-content: center;
+}
+
+.file_button_container,
+.file_button_container input {
+     height: 47px;
+     width: 263px;
+
+ }
+
+ .file_button_container {
+     background: transparent url(http://i.stack.imgur.com/BT5AB.png);
+     margin-bottom: 2rem;
+ }
+
+ .file_button_container input {
+     opacity: 0;
+ }
+</style>
