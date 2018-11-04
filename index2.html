@@ -109,6 +109,7 @@
 
             },
             error: function(jqXhr, textStatus, errorThrown) {
+                $("#errorList").empty();
                 let html = "<h3>Your Code Doesn't Compile</h3>";
                 $("#errorList").append(html);
             }
@@ -125,6 +126,7 @@
             key: "image",
             success: function(msg) {
                 if (msg === "bad") {
+                    $("#errorList").empty();
                     let html = "<h3>Your Code Doesn't Compile</h3>";
                     $("#errorList").append(html);
                 } else {
