@@ -51,16 +51,16 @@
         <script>
             function analyze() {
             var codeSnippet = document.getElementById("response").value;
-            
+
             $.ajax({
                 url: 'https://vandyhacks-codevision.herokuapp.com/parseText',
                 dataType: 'json',
                 type: 'post',
                 contentType: 'application/json',
-                body: JSON.stringify( { "comment": codeSnippet } ),
-                processData: false,
+                data: JSON.stringify({ comment: codeSnippet }),
                 success: function( data, textStatus, jQxhr ){
                     console.log("success");
+                    console.log(data);
                 },
                 error: function( jqXhr, textStatus, errorThrown ){
                     console.log("4");
