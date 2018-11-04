@@ -41,9 +41,9 @@
             <button class="btn btn-info btn-large" onClick='analyze()' id="button" type="submit">Submit</button>
         </div>
         <div class="container-fluid input-box col-xs-12 col-md-6">
-            <p id="Text">asdf</p>
-            <!-- <textarea rows="8" cols="50" placeholder="Your grades">
-    </textarea> -->
+            <!-- <p id="Text">asdf</p> -->
+            <textarea id = "Text" rows="8" cols="50" placeholder="Your grades">
+    </textarea>
         </div>
 </body>
 <script>
@@ -60,7 +60,7 @@
             success: function(data) {
                 // CODE COMPILES
                 //console.log(JSON.stringify(data));
-                $("#Text").append(JSON.stringify(data));
+                $("#Text").value = (JSON.stringify(data));
             },
             error: function(jqXhr, textStatus, errorThrown) {
                 // CODE DOESN'T COMPILE
