@@ -47,7 +47,7 @@
             <div class="container-fluid col-xs-12 col-md-3">
                 <h4>run goes here</h4>
             </div>
-            <form action="/upload" enctype="multipart/form-data" method="post">
+            <form enctype="multipart/form-data" method="post" name="img-upload">
                 <input type="file" name="image">
                 <input type="submit" value="Upload">
             </form>
@@ -72,6 +72,25 @@
                     }
                 });
             }
+
+                $("form[name='img-upload']").submit(function(e) {
+                    var formData = new FormData($(this)[0]);
+
+                    $.ajax({
+                        url: "https://vandyhacks-codevision.herokuapp.com/upload",
+                        type: "POST",
+                        data: formData,
+                        key: "image",
+                        success: function (msg) {
+                            console.log(JSON.stringify(msg));
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+
+                    e.preventDefault();
+                });
         </script>
     </div>
 </body>
