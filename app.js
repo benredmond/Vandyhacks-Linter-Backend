@@ -76,6 +76,7 @@ app.get('/', (req, res) => {
 
 app.post('/upload', parser.single("image"), function(req, res, next) {
     // res.redirect('/');
+    console.log(req);
     readImg("./images/" + req.file.filename, (imgText) => {
         let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
         fs.writeFile('./cpp/outputfile.cpp', content, () => {
@@ -89,7 +90,7 @@ app.post('/upload', parser.single("image"), function(req, res, next) {
                     });
                     // console.log(res);
                 } else {
-                    res.send(null);
+                    res.send('bad');
                 }
             });
         });
@@ -110,7 +111,7 @@ app.post('/parseText', (req, res) => {
                  });
                 // console.log(res);
             } else {
-                res.send(null);
+                res.send('bad');
             }
         });
     });
