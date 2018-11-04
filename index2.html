@@ -47,6 +47,10 @@
             <div class="container-fluid col-xs-12 col-md-3">
                 <h4>run goes here</h4>
             </div>
+            <form action="/upload" enctype="multipart/form-data" method="post">
+                <input type="file" name="image">
+                <input type="submit" value="Upload">
+            </form>
         </div>
         <script>
             function analyze() {

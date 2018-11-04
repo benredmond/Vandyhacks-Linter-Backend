@@ -71,7 +71,7 @@ function performAnalysis (fileName, code, callback){
 }
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/index2.html');
 });
 
 app.post('/upload', parser.single("image"), function(req, res, next) {
