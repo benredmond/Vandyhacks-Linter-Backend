@@ -75,20 +75,17 @@ app.get('/', (req, res) => {
 });
 
 app.post('/upload', parser.single("image"), function(req, res, next) {
-    // res.redirect('/');
+
     console.log(req);
     readImg("./images/" + req.file.filename, (imgText) => {
         let content = '#include <iostream>\nint main() {\n' + imgText + 'return 0;\n}';
         fs.writeFile('./cpp/outputfile.cpp', content, () => {
             performAnalysis('outputfile', content, (output) => {
                 if (output !== null) {
-                    // res = JSON.parse(res);
                     alg.calculateScore(output.typeToCount, (score) => {
                         output["score"] = score;
                         res.send(output);
-                        // res.redirect('/');
                     });
-                    // console.log(res);
                 } else {
                     res.send('bad');
                 }

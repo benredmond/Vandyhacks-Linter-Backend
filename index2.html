@@ -54,24 +54,25 @@
         </div>
         <script>
             function analyze() {
-            var codeSnippet = document.getElementById("response").value;
+                var codeSnippet = document.getElementById("response").value;
 
-            $.ajax({
-                url: 'https://vandyhacks-codevision.herokuapp.com/parseText',
-                dataType: 'json',
-                type: 'post',
-                contentType: 'application/json',
-                data: JSON.stringify({ comment: codeSnippet }),
-                success: function( data, textStatus, jQxhr ){
-                    console.log("success");
-                    console.log(data);
-                },
-                error: function( jqXhr, textStatus, errorThrown ){
-                    console.log("4");
-                    console.log( errorThrown );
-                }
-            });
-        }
-        
+                $.ajax({
+                    url: 'https://vandyhacks-codevision.herokuapp.com/parseText',
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ comment: codeSnippet }),
+                    success: function( data, textStatus, jQxhr ){
+                        console.log("success");
+                        console.log(data);
+                    },
+                    error: function( jqXhr, textStatus, errorThrown ){
+                        console.log("4");
+                        console.log( errorThrown );
+                    }
+                });
+            }
         </script>
+    </div>
 </body>
+</html>
