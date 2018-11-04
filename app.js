@@ -58,7 +58,8 @@ function performAnalysis (fileName, code, callback){
                 let mergedReport = {
                     lineToMessage,
                     typeToCount,
-                    output: compileResults["stdout"]
+                    output: compileResults["stdout"],
+                    output: score
                 };
                 console.log("mergedReport looks like this:");
                 console.log(mergedReport);
