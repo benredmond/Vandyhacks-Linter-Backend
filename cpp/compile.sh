@@ -5,7 +5,7 @@ shift # pull off first arg
 args="$*"
 filename=${input_file%%.cpp}
 
-$CC -o ./cpp/$filename.out $CFLAGS ./cpp/$input_file
+$CC -o ./cpp/$filename.out $CFLAGS ./cpp/$input_file --sysroot=/app/.apt
 rc=$?
 
 if [[ $rc -eq 0 ]]; then
